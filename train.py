@@ -9,7 +9,7 @@ trainDataDir = 'train'
 valDataDir = 'validation'
 numberTrainSample = 3995
 numberValidationSample = 497
-epochs = 50     # Diminishing returns when increasing epochs too much
+epochs = 50  # Diminishing returns when increasing epochs too much
 batchSize = 5
 
 # Set the size of the image used throughout the process

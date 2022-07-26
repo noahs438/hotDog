@@ -14,6 +14,7 @@ from tensorflow.keras.preprocessing import image
 from keras.models import load_model
 from keras.backend import set_session
 import tensorflow as tf
+import glob
 
 # To fix "call Model.predict with eager mode enabled
 tf.compat.v1.disable_eager_execution()
@@ -107,6 +108,12 @@ def uploaded_file(filename):
                                results=results)
 
 
+def clear_uploads():
+    files = glob.glob('static/uploads/*')
+    for f in files:
+        os.remove(f)
+
+
 def main():
     (mySession, myModel, myGraph) = load_model_from_file()
 
@@ -119,11 +126,14 @@ def main():
     app.config['UPLOAD_FOLDER'] = uploadFolder
     # Upload limit (16mb)
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+    clear_uploads()
     app.run()
 
 
 # Running list of results
 results = []
+del results[:]
+results.clear()
 
 # Launch everything
 main()
