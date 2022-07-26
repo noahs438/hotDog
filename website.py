@@ -108,6 +108,17 @@ def uploaded_file(filename):
                                results=results)
 
 
+# Check if uploads path exists (empty file won't upload to GitHub)
+# if the file does not exist, create it
+def create_uploads():
+    path = 'static/uploads'
+
+    isExist = os.path.exists(path)
+    if not isExist:
+        # Create new directory
+        os.makedirs(path)
+
+
 def clear_uploads():
     files = glob.glob('static/uploads/*')
     for f in files:
@@ -126,14 +137,16 @@ def main():
     app.config['UPLOAD_FOLDER'] = uploadFolder
     # Upload limit (16mb)
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+    create_uploads()
     clear_uploads()
     app.run()
 
 
 # Running list of results
 results = []
+# Making sure its empty on startup
 del results[:]
-results.clear()
+
 
 # Launch everything
 main()
