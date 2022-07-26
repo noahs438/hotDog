@@ -1,4 +1,5 @@
 import gc
+import os
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Conv2D, Activation, MaxPooling2D, Flatten, Dense, Dropout
@@ -98,6 +99,17 @@ def train_model(model):
     return model
 
 
+# Check if uploads path exists (empty file won't upload to GitHub)
+# if the file does not exist, create it
+def create_uploads():
+    path = 'static/uploads'
+
+    isExist = os.path.exists(path)
+    if not isExist:
+        # Create new directory
+        os.makedirs(path)
+
+
 # Machine learning model filename
 def save_model(model):
     model.save('saved_model.h5')
@@ -109,6 +121,7 @@ def main():
     gc.collect()
     myModel = build_model()
     myModel = train_model(myModel)
+    create_uploads()
     save_model(myModel)
 
 
